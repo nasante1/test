@@ -1,18 +1,25 @@
-(function() {
+(function () {
     var search = document.getElementById('search')
 
-    search.addEventListener('keypress', function(e){
-        if(e.charCode === 13)onSearch();
-        else console.log(e.charCode)
+    search.addEventListener('keypress', function (e) {
+        event.preventDefault();
+        if (e.keyCode === 13) onSearch()
+        else {
+            search.value += e.key
+        }
     })
 
-    function onSearch(){
-        var searchTerm = { "content": "hello"}
-        var request =  new XMLHttpRequest();
-        request.open('POST', '/ingredients', true)
-        request.setRequestHeader('Content-Type', 'application/json')
-        console.log(searchTerm)
-        console.log(request)
-        request.send(JSON.parse(searchTerm))
+    function onSearch() {
+        var searchTerm = { "ingredient": search.value }
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'http://localhost:3000/ingredients', true)
+        xhr.setRequestHeader('Content-Type', 'application/json')
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                var response = JSON.parse(xhr.responseText);
+                console.log(response)
+            }
+        }
+        xhr.send(JSON.stringify(searchTerm))
     }
 })();
