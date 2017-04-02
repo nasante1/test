@@ -25,7 +25,7 @@ app.post('/ingredients', function (req, res) {
 })
 
 app.post('/new', function (req, res) {
-    
+    console.log(req.body)
     let newRecipe = new Recipe(req.body)
     newRecipe.save(function (err) {
         if (err) res.json({ "message": err })
