@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const Ingredient = new Schema({
     "name": String,
-   "amount": Number,
+    "amount": Number,
     "amount_type": String
 })
 
@@ -16,8 +16,12 @@ const Recipe = new Schema({
     "instructions": String
 })
 
-Recipe.statics.getTypes = function (recipe, callback) {
-    this.find({$or: [{name:recipe}, {cusine: recipe}] }, function (err, recipes) {
+Recipe.statics.getTypes = function (searchTerm, callback) {
+    this.find({ $or:[
+        {"name": searchTerm},
+        {"cusine": searchTerm},
+        {"ingredients.name": searchTerm}
+    ]}, function (err, recipes) {
         if (err) console.log(err);
         else if (!recipes) err = 'Oh No Guy! no recipes with that type!'
         callback(err, recipes)
