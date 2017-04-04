@@ -3,14 +3,38 @@
 
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title> </title>
+    <title>Nappy</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous">
     <link rel="stylesheet" href="css/styles.css">
 </head>
 
-<body>
-    <form action="/ingredients" method="POST">
-        <input id='search' name="ingredient" type="text" placeholder="Enter Ingredient">
-    </form>
+<body> 
+    <div class="container">
+        <div class="panel panel-info col-md-3" >
+            <div class="panel-heading">Search for Recipe!</div>
+            <div class="panel-body">
+                <input class="form-control" id="search" placeholder="Search Term..." type="text">
+            </div>
+        </div>
+        <div class="panel panel-primary col-md-5">
+            <div class="panel-heading">New Recipe</div>
+            <div class="panel-body">
+                <div class="input-group" id="recipeForm">
+                    <input class="form-control" id="recipeName" type="text" placeholder="Recipe Name">
+                    <input class="form-control" id="description" type="text" placeholder="Description">
+                    <input class="form-control" id="cusine" type="text" placeholder="Cusine">
+                    <input class="form-control" id="portions" type="number" placeholder="Portions">
+                    <div class=form-inline>
+                        <input class="form-control" id="ingredient" type="text" placeholder="Ingredient">
+                        <input class="form-control" id="amount" type="number" placeholder="Amount">
+                    </div>
+                    <textarea class="form-control" id="instructions" cols="30" rows="10" placeholder="Instructions"></textarea>
+                    <button class="btn btn-primary submit" id="newRecipeSubmit">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="js/main.js"></script>
 </body>
 
