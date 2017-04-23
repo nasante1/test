@@ -1,34 +1,53 @@
 (function () {
+    function getId(id) {
+        return document.getElementById(id);
+    }
+
     var search = getId('search')
     var submitRecipeBtn = getId('newRecipeSubmit')
     var recipeForm = getId('recipeForm')
+    var addRecipeBtn = getId('newRecipeAdd')
+    var addIngredientBtn = getId('add-ingredient')
+    var ingredientsList = getId('ingredients-list')
 
-    search.addEventListener('keypress', function (e) {
-        event.preventDefault();
-        if (e.keyCode === 13) onSearch()
-        else {
-            search.value += e.key
-        }
-    })
-
-    submitRecipeBtn.addEventListener('click', function(e){
+    submitRecipeBtn.addEventListener('click', function (e) {
         var newRecipe = {
             "name": getId('recipeName').value,
             "description": getId('description').value,
-            "ingredients": [{
-                "name": getId('ingredient').value,
-                "amount": getId('amount').value,
-                "amount_type": "tons"
-            }],
             "cusine": getId('cusine').value,
+            "ingredients": [],
             "portions": getId('portions').value,
             "instructions": getId('instructions').value
+        }
+
+        var ingredient = {}
+        for(var i=0; i<ingredientsList.childElementCount; i++){
+            var item = ingredientsList.children[i].innerText.replace(/^delete/,'')
+            ingredient.name = item.split('-')[0]
+            ingredient.quantity = item.split('-')[1].split(' ')[0]
+            ingredient.unit = item.split('-')[1].split(' ')[1]
+            newRecipe.ingredients.push(ingredient)
         }
         onAddRecipe(newRecipe)
     })
 
-    function getId(id){
-        return document.getElementById(id);
+    addIngredientBtn.addEventListener('click', function (e) {
+        addIngredient(getId('ingredient').value, getId('quantity').value, getId('unit').value)
+    })
+
+    ingredientsList.addEventListener('click', function(e){
+        if(e.target.innerText === 'delete') e.target.parentElement.remove()
+    })
+
+    function addIngredient(ingredient, quantity, unit) {
+        var newIngre = document.createElement('li')
+        var badge = document.createElement('span')
+        badge.innerText = "delete"
+        badge.className = "badge"
+        newIngre.appendChild(badge)
+        newIngre.innerHTML += ingredient + "-" + quantity + " " + unit;
+        newIngre.className = "list-group-item"
+        getId('ingredients-list').appendChild(newIngre)
     }
 
     function onSearch() {
@@ -52,9 +71,17 @@
         xhr.onreadystatechange = function () {
             if (xhr.readyState == 4 && xhr.status == 200) {
                 var response = JSON.parse(xhr.responseText);
-                alert(response)
+                console.log(response)
             }
         }
         xhr.send(JSON.stringify(newRecipe))
     }
+
+    search.addEventListener('keypress', function (e) {
+        event.preventDefault();
+        if (e.keyCode === 13) onSearch()
+        else {
+            search.value += e.key
+        }
+    })
 })();

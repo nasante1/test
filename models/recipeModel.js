@@ -3,8 +3,8 @@ const Schema = mongoose.Schema;
 
 const Ingredient = new Schema({
     "name": String,
-    "amount": Number,
-    "amount_type": String
+    "quantity": Number,
+    "unit": String
 })
 
 const Recipe = new Schema({
@@ -26,9 +26,6 @@ Recipe.statics.getTypes = function (searchTerm, callback) {
         else if (!recipes) err = 'Oh No Guy! no recipes with that type!'
         callback(err, recipes)
     })
-
-
-    
 }
 
 module.exports = mongoose.model('Recipe', Recipe);
